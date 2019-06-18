@@ -91,12 +91,12 @@ def get_test_examples(data_file, prediction_file, top_n_beam_search_results, ber
 		all_labels.extend(labels)
 		all_tokens.extend(tokens)
 		all_example_ids.extend([example_counter] * len(labels))
-		
-	print (all_tokens[:10])
-	print (all_labels[:10])
-	print (len(all_tokens))
-	print (len(all_labels))
-	input("")
+	
+	print ("first ten examples", all_tokens[:10])
+	print ("first ten labels", all_labels[:10])
+	print ("num tokens", len(all_tokens))
+	print ("num labels", len(all_labels))
+	#input("")
 	counter = 0
 	t = 0
 	n = 0
@@ -133,17 +133,18 @@ def get_test_examples(data_file, prediction_file, top_n_beam_search_results, ber
 	ex = []
 	seqs = []
 	toks = []
-	for pred,token,true, ex_id in predicted:
-		if ex_id != prev:
-			prev += 1
-			beam_searched =beam_search_decoder(seqs, 3)
-			seqs=[]
-			print (beam_searched)
-			for i in beam_searched:
-				for l,t in zip(i[0], toks):
-					print (t, label_map[l])
-				input("")
-			toks = []
+	with open(outfile, w) as out_file:
+		for pred,token,true, ex_id in predicted:
+			if ex_id != prev:
+				prev += 1
+				beam_searched =beam_search_decoder(seqs, top_n_beam_search_results)
+				seqs=[]
+				print (beam_searched)
+				for i in beam_searched:
+					for l,t in zip(i[0], toks):
+						print (t, label_map[l])
+						outfile.write(t, "\t", label_map[l], "\n")
+				toks = []
 				
 
 		seqs.append(pred)
@@ -154,6 +155,8 @@ def get_test_examples(data_file, prediction_file, top_n_beam_search_results, ber
 
 
 # python src/post_process/transform_output.py --data_file supervised-oie/data/test.oie.conll --predictions_file supervised_oie_bert_model_dir/test_results.tsv --top_n_beam_search_results 3 --bert_vocab_file cased_L-12_H-768_A-12/vocab.txt --outfile test_results_readable.tsv
+
+
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()

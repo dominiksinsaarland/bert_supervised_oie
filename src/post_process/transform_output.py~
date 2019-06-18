@@ -34,7 +34,7 @@ def get_test_examples(data_file, prediction_file, top_n_beam_search_results, ber
 	example_counter = 0
 	guid = 0
 	covered = set()
-	with open("data/test.oie.conll") as infile:
+	with open(data_file) as infile:
 		for i, line in enumerate(infile):
 			if i == 0:
 				continue

@@ -50,7 +50,13 @@ CUDA_VISIBLE_DEVICES=0 python src/model/run_supervised_oie.py --init_checkpoint=
 --max_seq_length=128 --learning_rate=5e-5 --num_train_epochs=3
 ```
 
-* transform output into something readable
+* transform output into something readable (and write it into a file with the name "outfile", here I just call it test_results_readable.tsv)
 
+```bash 
+python src/post_process/transform_output.py --data_file supervised-oie/data/test.oie.conll \
+--predictions_file supervised_oie_bert_model_dir/test_results.tsv --top_n_beam_search_results 3 \
+--bert_vocab_file cased_L-12_H-768_A-12/vocab.txt --outfile test_results_readable.tsv
+```
 
+* that's all
 

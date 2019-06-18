@@ -16,8 +16,8 @@ Preliminary experiments for supervised open extraction using BERT and a viterbi 
 * Download and install Anaconda (https://www.anaconda.com/)
 * Create a Python Environment and activate it:
 ```bash 
-    conda create -n bert_open_oie python=3.6
-    source activate bert_open_oie
+conda create -n bert_open_oie python=3.6
+source activate bert_open_oie
 ```
 
 * download BERT cased English model
@@ -29,7 +29,7 @@ rm cased_L-12_H-768_A-12.zip
 
 * install requirements
 ```bash 
-pip install requirments.txt
+pip install -r requirments.txt
 ```
 
 * clone data repo

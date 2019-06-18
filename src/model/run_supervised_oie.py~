@@ -494,7 +494,7 @@ def softmax_layer(logits,labels,num_labels,mask):
   loss /= total_size
   # predict not mask we could filtered it in the prediction part.
   probabilities = tf.nn.softmax(logits, axis=-1)
-  predict = tf.argmax(probabilities, axis=-1)
+  predict = tf.math.argmax(probabilities, axis=-1)
   return loss, probabilities, predict
 
 

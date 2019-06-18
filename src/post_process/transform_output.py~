@@ -137,7 +137,7 @@ def get_test_examples(data_file, prediction_file, top_n_beam_search_results, ber
 		for pred,token,true, ex_id in predicted:
 			if ex_id != prev:
 				prev += 1
-				beam_searched =beam_search_decoder(seqs, top_n_beam_search_results)
+				beam_searched =beam_search_decoder(seqs, int(top_n_beam_search_results))
 				seqs=[]
 				print (beam_searched)
 				for i in beam_searched:

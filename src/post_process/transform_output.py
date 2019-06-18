@@ -133,7 +133,7 @@ def get_test_examples(data_file, prediction_file, top_n_beam_search_results, ber
 	ex = []
 	seqs = []
 	toks = []
-	with open(outfile, w) as out_file:
+	with open(outfile, "w") as out_file:
 		for pred,token,true, ex_id in predicted:
 			if ex_id != prev:
 				prev += 1
@@ -146,7 +146,6 @@ def get_test_examples(data_file, prediction_file, top_n_beam_search_results, ber
 						out_file.write(t, "\t", label_map[l], "\n")
 				toks = []
 				
-
 		seqs.append(pred)
 		toks.append(token)
 

@@ -23,7 +23,8 @@ def beam_search_decoder(data, k):
 		# select k best
 		sequences = ordered[:k]
 	return sequences
-# 	get_test_examples(args.data_file, args.predictions_file, args.top_n_beam_search_results, args.bert_vocab_file)
+
+
 def get_test_examples(data_file, prediction_file, top_n_beam_search_results, bert_vocab_file, outfile):
 	tokenizer =  tokenization.FullTokenizer(vocab_file=bert_vocab_file, do_lower_case=False)
 
@@ -34,6 +35,7 @@ def get_test_examples(data_file, prediction_file, top_n_beam_search_results, ber
 	example_counter = 0
 	guid = 0
 	covered = set()
+	# tokenize test set in the same way we tokenized it to label it
 	with open(data_file) as infile:
 		for i, line in enumerate(infile):
 			if i == 0:
@@ -65,6 +67,8 @@ def get_test_examples(data_file, prediction_file, top_n_beam_search_results, ber
 	max_seq_length = 128
 	label_map = ["A0-B", "A0-I", "A1-B", "A1-I", "A2-B", "A2-I", "A3-B", "A3-I", "A4-B", "A4-I", "A5-B", "A5-I", "O", "P-B", "P-I", "[CLS]", "X"]
 	label_map = {i:x for i,x in enumerate(label_map)}
+
+	# truncate and pad sequences to max length (we also predict padding tokens and cannot allow for a missmatch between token indices and prediction indices)
 	for (textlist, labellist, example_counter) in examples:
 		index = 0
 		labels = ["X"]
@@ -104,6 +108,8 @@ def get_test_examples(data_file, prediction_file, top_n_beam_search_results, ber
 
 	predicted = []
 	prev_id = 0
+
+	# read predictions file
 	with open(prediction_file) as preds:
 		for i, pred in enumerate(preds):
 			if all_labels[counter] != "X":
@@ -112,27 +118,11 @@ def get_test_examples(data_file, prediction_file, top_n_beam_search_results, ber
 				
 			counter += 1
 
-			"""
-			if label_map[int(pred)] == all_labels[counter]:
-				t += 1
-			else:
-				try:
-					print (" ".join(all_tokens[counter - 5: counter + 5]))
-					print (" ".join(all_labels[counter - 5: counter + 5]))
-					print (all_tokens[counter], all_labels[counter], label_map[int(pred)])
-					#input("")
-				except Exception as e:
-					print (str(e))
-					pass
-		
-			n += 1
-			counter += 1
-			"""
-
 	prev = 0
 	ex = []
 	seqs = []
 	toks = []
+	# decode output with beam search decoder
 	with open(outfile, "w") as out_file:
 		for pred,token,true, ex_id in predicted:
 			if ex_id != prev:
@@ -144,7 +134,6 @@ def get_test_examples(data_file, prediction_file, top_n_beam_search_results, ber
 					for l,t in zip(i[0], toks):
 						print (t, label_map[l])
 						out_file.write(t + "\t" + label_map[l] + "\n")
-					input("")
 
 				toks = []
 				

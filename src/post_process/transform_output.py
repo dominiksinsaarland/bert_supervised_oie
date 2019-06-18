@@ -144,6 +144,8 @@ def get_test_examples(data_file, prediction_file, top_n_beam_search_results, ber
 					for l,t in zip(i[0], toks):
 						print (t, label_map[l])
 						out_file.write(t, "\t", label_map[l], "\n")
+					input("")
+
 				toks = []
 				
 		seqs.append(pred)

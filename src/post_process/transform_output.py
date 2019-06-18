@@ -143,7 +143,7 @@ def get_test_examples(data_file, prediction_file, top_n_beam_search_results, ber
 				for i in beam_searched:
 					for l,t in zip(i[0], toks):
 						print (t, label_map[l])
-						outfile.write(t, "\t", label_map[l], "\n")
+						out_file.write(t, "\t", label_map[l], "\n")
 				toks = []
 				
 

@@ -148,11 +148,11 @@ def get_test_examples(data_file, prediction_file, top_n_beam_search_results, ber
 
 				toks = []
 				
-		seqs.append(pred)
-		toks.append(token)
+			seqs.append(pred)
+			toks.append(token)
 
-		pred = label_map[np.argmax(pred)]
-		print ("tok", token, "pred", pred, "true", true)
+			pred = label_map[np.argmax(pred)]
+			print ("tok", token, "pred", pred, "true", true)
 
 
 # python src/post_process/transform_output.py --data_file supervised-oie/data/test.oie.conll --predictions_file supervised_oie_bert_model_dir/test_results.tsv --top_n_beam_search_results 3 --bert_vocab_file cased_L-12_H-768_A-12/vocab.txt --outfile test_results_readable.tsv
